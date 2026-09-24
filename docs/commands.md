@@ -1,6 +1,7 @@
 mvn quarkus:add-extension -Dextensions="quarkus-smallrye-openapi"
 openapi : localhost:8080/swagger-ui
 mvn quarkus:add-extension -Dextensions="quarkus-rest-jackson"
+mvn quarkus:add-extension -Dextensions="quarkus-hibernate-validator" // dto
 ### Git
 git config pull.rebase false
 
