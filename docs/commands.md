@@ -22,3 +22,4 @@ mvn clean compile
 [hibernate repository (apparement le css c'est pas pour les dev)](https://jakarta.ee/specifications/data/1.0/apidocs/jakarta.data/module-summary.html)
 [hibernate tags](https://docs.hibernate.org/orm/6.6/javadocs/org/hibernate/boot/model/naming/ImplicitNamingStrategy.html)
 [Quarkus basic auth](https://quarkus.io/guides/security-getting-started-tutorial/)
+[Quarkus hash](https://quarkus.io/guides/security-jpa/)
