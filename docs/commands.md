@@ -1,5 +1,6 @@
 mvn quarkus:add-extension -Dextensions="quarkus-smallrye-openapi"
 openapi : localhost:8080/swagger-ui
+http://localhost:8080/q/swagger-ui/
 mvn quarkus:add-extension -Dextensions="quarkus-rest-jackson"
 mvn quarkus:add-extension -Dextensions="quarkus-hibernate-validator" // dto
 quarkus extension add quarkus-container-image-docker // extension docker automatique
