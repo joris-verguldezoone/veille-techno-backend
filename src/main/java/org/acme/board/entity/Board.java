@@ -1,4 +1,4 @@
-package org.acme.auth.entity;
+package org.acme.board.entity;
 import org.acme.auth.entity.User;
 
 import java.time.LocalDateTime;
