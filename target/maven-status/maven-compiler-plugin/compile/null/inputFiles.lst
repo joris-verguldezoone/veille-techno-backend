@@ -1,4 +1,6 @@
 /Users/jverguldezoone/Desktop/veille-techno-backend/src/main/java/org/acme/auth/AuthResource.java
 /Users/jverguldezoone/Desktop/veille-techno-backend/src/main/java/org/acme/auth/AuthService.java
+/Users/jverguldezoone/Desktop/veille-techno-backend/src/main/java/org/acme/auth/dto/LoginRequest.java
 /Users/jverguldezoone/Desktop/veille-techno-backend/src/main/java/org/acme/auth/dto/RegisterRequest.java
 /Users/jverguldezoone/Desktop/veille-techno-backend/src/main/java/org/acme/auth/entity/User.java
+/Users/jverguldezoone/Desktop/veille-techno-backend/src/main/java/org/acme/user/UserResource.java

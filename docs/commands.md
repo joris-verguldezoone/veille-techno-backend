@@ -32,3 +32,6 @@ mvn clean compile
 [Quarkus hash](https://quarkus.io/guides/security-jpa/)
 [Java http standards](https://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Response.Status.html) 
 [Java JWT functions](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/jwt/Jwt.html)
+[UniqueConstraintsHibernate](https://www.baeldung.com/jpa-unique-constraints)
+    @Table(uniqueConstraints = { @UniqueConstraint(name = "UniqueNumberAndStatus", columnNames = { "personNumber", "isActive" }) })
+    

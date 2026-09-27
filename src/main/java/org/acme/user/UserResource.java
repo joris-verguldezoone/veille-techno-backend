@@ -1,4 +1,4 @@
-package org.acme.user; // Adapte le package si besoin
+package org.acme.user; 
 
 import org.acme.auth.entity.User;
 import org.eclipse.microprofile.jwt.JsonWebToken;
