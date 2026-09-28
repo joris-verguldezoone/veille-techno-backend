@@ -2,6 +2,7 @@ package org.acme.user;
 
 import org.acme.auth.entity.User;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
@@ -21,6 +22,7 @@ public class UserResource {
     @GET
     @Path("/me")
     @Authenticated // Equivalent du guard pour les user qui n'ont pas de JWT
+    @SecurityRequirement(name = "jwt")
     public Response getCurrentUser() {
         
         String userId = jwt.getSubject();
