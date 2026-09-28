@@ -1,0 +1,16 @@
+org/acme/boardColumn/dto/BoardColumnRequest.class
+org/acme/card/CardResource.class
+org/acme/board/dto/BoardRequest.class
+org/acme/board/BoardResource.class
+org/acme/board/BoardService.class
+org/acme/auth/dto/LoginRequest.class
+org/acme/auth/dto/RegisterRequest.class
+org/acme/board/entity/Board.class
+org/acme/card/CardService.class
+org/acme/boardColumn/BoardColumnService.class
+org/acme/boardColumn/BoardColumnResource.class
+org/acme/auth/AuthService.class
+org/acme/auth/entity/User$Role.class
+org/acme/boardColumn/entity/BoardColumn.class
+org/acme/auth/entity/User.class
+org/acme/user/UserResource.class
