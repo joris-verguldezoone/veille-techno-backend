@@ -3,6 +3,7 @@ package org.acme.board;
 import org.acme.auth.entity.User;
 import org.acme.board.dto.BoardRequest;
 import org.acme.board.entity.Board;
+import org.hibernate.DuplicateMappingException;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -20,19 +21,45 @@ public class BoardService {
     }
 
     @Transactional
-    public Board createBoard(BoardRequest request, Long userId) {
+    public Board createBoard(BoardRequest request, Long userId) {        
+        // if (user == null) {
+        //     throw new NotFoundException("Utilisateur introuvable");
+        // }
+
+        // long count = Board.count("owner.id = ?1 and title = ?2", userId, request.title);
+       
+        // if (count > 0) {
+        //     throw new WebApplicationException("Vous avez déjà un tableau portant ce nom", Response.Status.CONFLICT);
+        // }
+
         User user = User.findById(userId);
-        
+    
         if (user == null) {
-            throw new NotFoundException("Utilisateur introuvable");
+            // Response plutôt que Exception 
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND)
+                        .entity("Utilisateur introuvable")
+                        .build()
+            );
+        }
+
+        long count = Board.count("owner.id = ?1 and title = ?2", userId, request.title);
+    
+        if (count > 0) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.CONFLICT)
+                        .entity("Ce tableau existe déjà")
+                        .build()
+            );
         }
 
         Board board = new Board();
         board.title = request.title;
         board.owner = user;
         
+    
         board.persist();
-        
+       
         return board;
     }
 

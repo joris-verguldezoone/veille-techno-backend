@@ -34,4 +34,14 @@ mvn clean compile
 [Java JWT functions](https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/oauth2/jwt/Jwt.html)
 [UniqueConstraintsHibernate](https://www.baeldung.com/jpa-unique-constraints)
     @Table(uniqueConstraints = { @UniqueConstraint(name = "UniqueNumberAndStatus", columnNames = { "personNumber", "isActive" }) })
-    
+
+
+
+
+
+### TODO : Frontend
+
+Faire ses propres tickets (jira, US->Tickets)
+Sécuriser les routes-> cycle de vie du token dans le front
+
+Voir pour flyway
