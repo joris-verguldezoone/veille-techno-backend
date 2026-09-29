@@ -3,6 +3,7 @@ package org.acme.user;
 import java.util.Map;
 import org.acme.auth.entity.User;
 import org.acme.user.dto.ChangePasswordRequest;
+import org.acme.user.dto.ChangeRoleRequest;
 import org.acme.user.dto.PatchNameRequest;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
@@ -51,5 +52,22 @@ public class UserService {
         user.name = request.name;
 
         return user; 
+    }
+
+    @Transactional
+    public User changeRole(Long targetUserId, ChangeRoleRequest request) {
+        User targetUser = User.findById(targetUserId);
+
+        if (targetUser == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity("Utilisateur introuvable").build()
+            );
+        }
+
+        // On assigne le nouvel enum
+        // A définir dans des input dans le frontend
+        targetUser.role = request.role; 
+
+        return targetUser;
     }
 }

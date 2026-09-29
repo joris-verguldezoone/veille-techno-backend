@@ -5,6 +5,7 @@ import javax.smartcardio.Card;
 import org.acme.auth.entity.User;
 import org.acme.boardColumn.BoardColumnService;
 import org.acme.user.dto.ChangePasswordRequest;
+import org.acme.user.dto.ChangeRoleRequest;
 import org.acme.user.dto.PatchNameRequest;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
@@ -64,5 +65,22 @@ public class UserResource {
         return Response.ok(updateName).build();
     }
 
-    
+    @PATCH
+    @Path("/{userId}/role")
+    public Response changeRole(@PathParam("userId") Long targetUserId, @Valid ChangeRoleRequest request) {
+        // On vérifie qui fait la requete        
+        Long currentUserId = Long.parseLong(jwt.getSubject());
+        User currentUser = User.findById(currentUserId);
+        
+        // Suis-je admin ? 
+        if (currentUser == null || currentUser.role != User.Role.ADMIN) {
+            return Response.status(Response.Status.FORBIDDEN)
+                           .entity("Seul un administrateur peut changer les rôles")
+                           .build();
+        }
+
+        User updatedUser = userService.changeRole(targetUserId, request);
+        
+        return Response.ok(updatedUser).build();
+    }
 }
