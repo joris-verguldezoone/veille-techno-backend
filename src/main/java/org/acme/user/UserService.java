@@ -3,6 +3,8 @@ package org.acme.user;
 import java.util.Map;
 import org.acme.auth.entity.User;
 import org.acme.user.dto.ChangePasswordRequest;
+import org.acme.user.dto.PatchNameRequest;
+
 import io.quarkus.elytron.security.common.BcryptUtil;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -34,5 +36,20 @@ public class UserService {
 
         user.password = BcryptUtil.bcryptHash(request.newPassword);
         user.persist();
+    }
+
+    @Transactional // Active la modification de bdd, le dirty checking pour update
+    public User updateName(Long userId,PatchNameRequest request){
+        User user = User.findById(userId);
+
+        if (user == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity("Utilisateur introuvable").build()
+            );
+        }
+
+        user.name = request.name;
+
+        return user; 
     }
 }

@@ -35,8 +35,8 @@ mvn clean compile
 [UniqueConstraintsHibernate](https://www.baeldung.com/jpa-unique-constraints)
     @Table(uniqueConstraints = { @UniqueConstraint(name = "UniqueNumberAndStatus", columnNames = { "personNumber", "isActive" }) })
 
-
-
+[Dirty Checking](https://docs.hibernate.org/orm/current/userguide/html_single/#flushing-order)
+A mutable Object allows you to modify its internal structure, and Hibernate’s dirty checking mechanism is going to propagate the change to the database
 
 
 ### TODO : Frontend

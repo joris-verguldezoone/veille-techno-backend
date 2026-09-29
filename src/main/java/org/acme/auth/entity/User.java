@@ -23,7 +23,7 @@ public class User extends PanacheEntity {
     
     @JsonIgnore // pour ne pas renvoyer de mdp lors des @Get
     // Fonctionne a l'aide du packet quarkus-rest-jackson, pour renvoyer du json
-    @Column(nullable = false)
+    @Column(nullable = false, length=32)
     public String password; // truc spécial pour le mdp
 
     public String name;
