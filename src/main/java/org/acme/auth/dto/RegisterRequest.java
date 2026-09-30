@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
     
+    @NotBlank(message = "Le nom est obligatoire")
+    public String name;
+
     @NotBlank(message = "L'email ne peut pas être vide")
     @Email(message = "Le format de l'email est invalide")
     public String email;
@@ -14,7 +17,5 @@ public class RegisterRequest {
     @Size(min = 6, message = "Le mot de passe doit faire au moins 6 caractères")
     public String password;
 
-    @NotBlank(message = "Le nom est obligatoire")
-    public String name;
 } // Le reste sera attribué automatiquement
 // Le role admin sera attribué par @Put

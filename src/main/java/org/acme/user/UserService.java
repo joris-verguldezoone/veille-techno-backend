@@ -54,7 +54,7 @@ public class UserService {
         return user; 
     }
 
-    @Transactional
+    @Transactional // refaire la route pour que seul un admin puisse y accéder 
     public User changeRole(Long targetUserId, ChangeRoleRequest request) {
         User targetUser = User.findById(targetUserId);
 

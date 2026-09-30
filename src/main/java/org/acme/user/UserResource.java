@@ -1,5 +1,7 @@
 package org.acme.user; 
 
+import java.util.List;
+
 import javax.smartcardio.Card;
 
 import org.acme.auth.entity.User;
@@ -82,5 +84,11 @@ public class UserResource {
         User updatedUser = userService.changeRole(targetUserId, request);
         
         return Response.ok(updatedUser).build();
+    }
+
+    @GET 
+    public Response getAllUsers(){
+        List<User> users = User.findAll().list();
+        return Response.ok(users).build();
     }
 }

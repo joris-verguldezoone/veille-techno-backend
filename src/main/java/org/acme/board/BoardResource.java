@@ -62,4 +62,5 @@ public class BoardResource {
         
         return Response.ok(updatedBoard).build();
     }
+    
 }
