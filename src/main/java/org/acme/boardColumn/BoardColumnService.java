@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.acme.board.entity.Board;
+import org.acme.boardColumn.dto.BoardColumnNamePatch;
 import org.acme.boardColumn.dto.BoardColumnRequest;
 import org.acme.boardColumn.entity.BoardColumn;
 
@@ -62,5 +63,46 @@ public class BoardColumnService {
                         .build()
             );
         }
+    }
+    @Transactional
+    public void deleteColumn(Long columnId, Long userId) {
+
+        BoardColumn column = BoardColumn.findById(columnId);
+        if (column == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity(Map.of("error", "Colonne introuvable")).build()
+            );
+        }
+        // a le droit de supprimer une colonne de ce tableau
+        if (!column.board.owner.id.equals(userId)) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.FORBIDDEN).entity(Map.of("error", "Vous n'avez pas le droit de supprimer cette colonne")).build()
+            );
+        }
+
+        column.delete();
+    }
+
+    @Transactional
+    public BoardColumn updateColumn(Long columnId, BoardColumnNamePatch request, Long userId) {
+        
+        BoardColumn column = BoardColumn.findById(columnId);
+        if (column == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity("Colonne introuvable").build()
+            );
+        }
+
+        if (!column.board.owner.id.equals(userId)) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.FORBIDDEN).entity("Accès refusé: vous ne possédez pas ce tableau").build()
+            );
+        }
+
+        if (request.title != null && !request.title.trim().isEmpty()) {
+            column.title = request.title;
+        }
+
+        return column;
     }
 }

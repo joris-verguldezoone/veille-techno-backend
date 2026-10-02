@@ -7,7 +7,7 @@ mvn quarkus:add-extension -Dextensions="quarkus-rest-jackson"
 mvn quarkus:add-extension -Dextensions="quarkus-hibernate-validator" // dto
 quarkus extension add quarkus-container-image-docker // extension docker automatique
 mvn quarkus:add-extension -Dextensions='smallrye-jwt,smallrye-jwt-build' // JWT
-
+quarkus extension add micrometer-opentelemetry // logger and more
 ### Git
 git config pull.rebase false
 
@@ -36,8 +36,8 @@ mvn clean compile
 [UniqueConstraintsHibernate](https://www.baeldung.com/jpa-unique-constraints)
     @Table(uniqueConstraints = { @UniqueConstraint(name = "UniqueNumberAndStatus", columnNames = { "personNumber", "isActive" }) })
 
-
-
+[Dirty Checking](https://docs.hibernate.org/orm/current/userguide/html_single/#flushing-order)
+A mutable Object allows you to modify its internal structure, and Hibernate’s dirty checking mechanism is going to propagate the change to the database
 
 
 ### TODO : Frontend

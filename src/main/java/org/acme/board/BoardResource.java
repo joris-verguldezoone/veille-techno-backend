@@ -1,7 +1,10 @@
 package org.acme.board;
 
 import org.acme.board.dto.BoardRequest;
+import org.acme.board.dto.BoardTitlePatch;
 import org.acme.board.entity.Board;
+import org.acme.boardColumn.dto.BoardColumnNamePatch;
+import org.acme.boardColumn.entity.BoardColumn;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import io.quarkus.security.Authenticated;
@@ -46,7 +49,18 @@ public class BoardResource {
         Long userId = Long.parseLong(jwt.getSubject());
         boardService.deleteBoard(boardId, userId);
 
-        return Response.noContent().build(); // 204 No Content mais marche pas
-        // revoir y'a un pb de retour
+        return Response.noContent().build(); 
     } 
+
+    @PATCH
+    @Path("/{boardId}")
+    public Response patchBoard(@PathParam("boardId") Long boardId, @Valid BoardTitlePatch request) {
+        
+        Long userId = Long.parseLong(jwt.getSubject());
+
+        Board updatedBoard = boardService.updateBoard(boardId, request, userId);
+        
+        return Response.ok(updatedBoard).build();
+    }
+    
 }
