@@ -16,6 +16,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import org.jboss.logging.Logger;
+import org.jboss.resteasy.reactive.RestResponse.Status;
+
 @Path("/api/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,6 +30,9 @@ public class AuthResource {
     @Inject
     JsonWebToken jwt; 
 
+    private static final Logger LOG = Logger.getLogger(AuthResource.class);
+
+
     @POST
     @Path("/register")
     public Response register(@Valid RegisterRequest request) { 
@@ -37,7 +43,14 @@ public class AuthResource {
     @POST
     @Path("/login")
     public Response login(@Valid LoginRequest request) {
-        String token = authService.login(request);
-        return Response.ok(Map.of("accessToken", token)).build();
+        try {
+            String token = authService.login(request);
+            return Response.ok(Map.of("accessToken", token)).build();
+            
+        } catch (Exception e) {
+            LOG.info("plop");
+            LOG.info(e.getMessage());
+            return Response.status(Status.BAD_REQUEST).build();
+        }
     }
 }
