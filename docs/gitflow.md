@@ -141,3 +141,4 @@ Pull Requests obligatoires
 - Ne jamais commit du code cassé
 
 - Préférer plusieurs petits commits à un gros
+

@@ -1,39 +1,77 @@
 package org.acme.card;
 
-import java.util.Map;
 import org.acme.boardColumn.entity.BoardColumn;
 import org.acme.card.dto.CardRequest;
 import org.acme.card.entity.Card;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 
 @ApplicationScoped
 public class CardService {
 
-    @Transactional
-    public Card createCard(CardRequest request, Long userId) {
-        BoardColumn column = BoardColumn.findById(request.columnId);
+    public List<Card> getCardsByColumn(Long columnId, Long userId) {
+        BoardColumn column = BoardColumn.findById(columnId);
         
         if (column == null) {
             throw new WebApplicationException(
-                Response.status(Response.Status.NOT_FOUND).entity(Map.of("error", "Colonne introuvable")).build()
+                Response.status(Response.Status.NOT_FOUND).entity("Colonne introuvable").build()
+            );
+        }
+        
+        if (!column.board.owner.id.equals(userId)) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.FORBIDDEN).entity("Accès refusé à cette colonne").build()
+            );
+        }
+        
+        return Card.list("boardColumn.id", columnId);
+    }
+
+    @Transactional
+    public Card createCard(Long columnId, CardRequest request, Long userId) {
+        BoardColumn column = BoardColumn.findById(columnId);
+        
+        if (column == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity("Colonne introuvable").build()
             );
         }
 
         if (!column.board.owner.id.equals(userId)) {
             throw new WebApplicationException(
-                Response.status(Response.Status.FORBIDDEN).entity(Map.of("error", "Accès refusé")).build()
+                Response.status(Response.Status.FORBIDDEN).entity("Vous n'êtes pas propriétaire de ce tableau").build()
             );
         }
 
         Card card = new Card();
         card.title = request.title;
         card.description = request.description;
-        card.column = column;
+        card.boardColumn = column;
         
         card.persist();
         return card;
+    }
+
+    @Transactional
+    public void deleteCard(Long cardId, Long userId) {
+        Card card = Card.findById(cardId);
+        
+        if (card == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity("Carte introuvable").build()
+            );
+        }
+
+        if (!card.boardColumn.board.owner.id.equals(userId)) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.FORBIDDEN).entity("Accès refusé pour supprimer cette carte").build()
+            );
+        }
+
+        card.delete();
     }
 }
