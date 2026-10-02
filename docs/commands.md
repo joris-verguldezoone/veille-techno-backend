@@ -46,3 +46,5 @@ Faire ses propres tickets (jira, US->Tickets)
 Sécuriser les routes-> cycle de vie du token dans le front
 
 Voir pour flyway
+
+Réfléchir a l'ajout de Model pour améliorer le principe de responsabilité unique des services 
