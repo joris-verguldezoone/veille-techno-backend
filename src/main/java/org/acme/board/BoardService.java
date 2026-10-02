@@ -3,7 +3,6 @@ package org.acme.board;
 import org.acme.auth.entity.User;
 import org.acme.board.dto.BoardRequest;
 import org.acme.board.entity.Board;
-import org.hibernate.DuplicateMappingException;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -71,7 +70,6 @@ public class BoardService {
             throw new NotFoundException("Tableau introuvable");
         }
         
-        // userid = ownerid
         if (!board.owner.id.equals(userId)) {
             throw new WebApplicationException("Accès refusé", Response.Status.FORBIDDEN);
         }

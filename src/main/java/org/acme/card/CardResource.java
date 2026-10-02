@@ -1,5 +1,7 @@
 package org.acme.card;
 
+import java.util.List;
+
 import org.acme.card.dto.CardRequest;
 import org.acme.card.entity.Card;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -7,10 +9,17 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/api/cards")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,9 +33,8 @@ public class CardResource {
     @Inject
     CardService cardService;
 
-    // Méthode utilitaire pour éviter le ClassCastException (Integer vers Long)
     private Long getUserIdFromToken() {
-        Number userId = jwt.getClaim("userId");
+        Long userId = Long.parseLong(jwt.getSubject());
         if (userId == null) {
             throw new NotAuthorizedException("Token invalide ou userId manquant");
         }
