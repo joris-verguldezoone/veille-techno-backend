@@ -29,6 +29,7 @@ import jakarta.persistence.UniqueConstraint;
 
 public class Board extends PanacheEntity {
 
+    @Column(length = 100)
     public String title;
  
     @CreationTimestamp 

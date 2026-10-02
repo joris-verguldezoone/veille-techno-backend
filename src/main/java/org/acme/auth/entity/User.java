@@ -26,6 +26,7 @@ public class User extends PanacheEntity {
     @Column(nullable = false)
     public String password; // truc spécial pour le mdp
 
+    @Column(length=32)
     public String name;
 
     @Enumerated(EnumType.STRING)
