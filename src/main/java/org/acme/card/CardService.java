@@ -6,6 +6,7 @@ import org.acme.card.entity.Card;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
@@ -73,5 +74,25 @@ public class CardService {
         }
 
         card.delete();
+    }
+
+    @Transactional
+    public Card updateCard(Long cardId, CardRequest request, Long userId) {
+        Card card = Card.findById(cardId);
+        
+        if (card == null) {
+            throw new NotFoundException("Carte introuvable");
+        }
+        
+        if (request.title != null && !request.title.trim().isEmpty()) {
+            card.title = request.title;
+        }
+        
+        if (request.description != null) {
+            card.description = request.description;
+        }
+
+
+        return card;
     }
 }

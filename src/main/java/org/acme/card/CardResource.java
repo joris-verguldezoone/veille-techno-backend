@@ -24,27 +24,40 @@ public class CardResource {
     @Inject
     CardService cardService;
 
+    // Méthode utilitaire pour éviter le ClassCastException (Integer vers Long)
+    private Long getUserIdFromToken() {
+        Number userId = jwt.getClaim("userId");
+        if (userId == null) {
+            throw new NotAuthorizedException("Token invalide ou userId manquant");
+        }
+        return userId.longValue();
+    }
+
     @GET
     @Path("/column/{columnId}")
     public Response getCards(@PathParam("columnId") Long columnId) {
-        Long userId = jwt.getClaim("userId");
-        List<Card> cards = cardService.getCardsByColumn(columnId, userId);
+        List<Card> cards = cardService.getCardsByColumn(columnId, getUserIdFromToken());
         return Response.ok(cards).build();
     }
 
     @POST
     @Path("/column/{columnId}")
     public Response createCard(@PathParam("columnId") Long columnId, @Valid CardRequest request) {
-        Long userId = jwt.getClaim("userId"); // revoir pourquoi d'un coup ça marche plus
-        Card card = cardService.createCard(columnId, request, userId);
+        Card card = cardService.createCard(columnId, request, getUserIdFromToken());
         return Response.status(Response.Status.CREATED).entity(card).build();
     }
 
     @DELETE
     @Path("/{cardId}")
     public Response deleteCard(@PathParam("cardId") Long cardId) {
-        Long userId = jwt.getClaim("userId");        
-        cardService.deleteCard(cardId, userId);
+        cardService.deleteCard(cardId, getUserIdFromToken());
         return Response.noContent().build();
+    }
+
+    @PATCH
+    @Path("/{cardId}")
+    public Response updateCard(@PathParam("cardId") Long cardId, CardRequest request) {
+        Card updatedCard = cardService.updateCard(cardId, request, getUserIdFromToken());
+        return Response.ok(updatedCard).build();
     }
 }
