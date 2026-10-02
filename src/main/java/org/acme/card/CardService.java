@@ -1,5 +1,7 @@
 package org.acme.card;
 
+import java.util.List;
+
 import org.acme.boardColumn.entity.BoardColumn;
 import org.acme.card.dto.CardRequest;
 import org.acme.card.entity.Card;
@@ -9,7 +11,6 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @ApplicationScoped
 public class CardService {
