@@ -30,7 +30,6 @@ public class BoardColumnService {
         
         validateBoardAccess(board, userId);
 
-        // On vérifie le doublon 
         long count = BoardColumn.count("board.id = ?1 and title = ?2", request.boardId, request.title);
         if (count > 0) {
             throw new WebApplicationException(

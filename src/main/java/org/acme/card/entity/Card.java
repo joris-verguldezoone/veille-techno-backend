@@ -1,6 +1,12 @@
 package org.acme.card.entity;
 
+import java.time.LocalDateTime; 
+
 import org.acme.boardColumn.entity.BoardColumn;
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

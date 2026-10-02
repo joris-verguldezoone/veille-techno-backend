@@ -44,6 +44,6 @@ public class BoardColumn extends PanacheEntity {
     @JsonIgnore // sans ça je boucle sur la relation du parents, et le parent sur la relation de l'enfant
     public Board board;
 
-    @OneToMany(mappedBy = "column", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "boardColumn", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Card> cards = new ArrayList<>();
 }
