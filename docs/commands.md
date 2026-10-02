@@ -7,6 +7,7 @@ mvn quarkus:add-extension -Dextensions="quarkus-rest-jackson"
 mvn quarkus:add-extension -Dextensions="quarkus-hibernate-validator" // dto
 quarkus extension add quarkus-container-image-docker // extension docker automatique
 mvn quarkus:add-extension -Dextensions='smallrye-jwt,smallrye-jwt-build' // JWT
+
 ### Git
 git config pull.rebase false
 
@@ -45,3 +46,5 @@ Faire ses propres tickets (jira, US->Tickets)
 Sécuriser les routes-> cycle de vie du token dans le front
 
 Voir pour flyway
+
+Réfléchir a l'ajout de Model pour améliorer le principe de responsabilité unique des services 
