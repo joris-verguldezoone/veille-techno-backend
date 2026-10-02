@@ -7,7 +7,7 @@ mvn quarkus:add-extension -Dextensions="quarkus-rest-jackson"
 mvn quarkus:add-extension -Dextensions="quarkus-hibernate-validator" // dto
 quarkus extension add quarkus-container-image-docker // extension docker automatique
 mvn quarkus:add-extension -Dextensions='smallrye-jwt,smallrye-jwt-build' // JWT
-
+quarkus extension add micrometer-opentelemetry // logger and more
 ### Git
 git config pull.rebase false
 

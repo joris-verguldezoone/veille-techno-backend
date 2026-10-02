@@ -86,7 +86,7 @@ public class UserResource {
         return Response.ok(updatedUser).build();
     }
 
-    @GET 
+    @GET // pour du dev, a suppr ou a mettre en droit admin
     public Response getAllUsers(){
         List<User> users = User.findAll().list();
         return Response.ok(users).build();
