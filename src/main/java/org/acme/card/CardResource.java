@@ -33,14 +33,18 @@ public class CardResource {
     @Inject
     CardService cardService;
 
-    private Long getUserIdFromToken() { 
-        Number userId = jwt.getClaim("userId");
+    private Long getUserIdFromToken() {
+        String subject = jwt.getSubject();
         
-        if (userId == null) {
-            throw new NotAuthorizedException("Token invalide ou userId manquant");
+        if (subject == null) {
+            throw new NotAuthorizedException("Token invalide : aucun subject (sub) trouvé");
         }
         
-        return userId.longValue();
+        try {
+            return Long.parseLong(subject);
+        } catch (NumberFormatException e) {
+            throw new NotAuthorizedException("Token champs 'id' non valide : " + subject);
+        }
     }
 
     @GET
@@ -69,5 +73,12 @@ public class CardResource {
     public Response updateCard(@PathParam("cardId") Long cardId, CardRequest request) {
         Card updatedCard = cardService.updateCard(cardId, request, getUserIdFromToken());
         return Response.ok(updatedCard).build();
+    }
+
+    @PATCH
+    @Path("/{cardId}/move/{newColumnId}")
+    public Response moveCard(@PathParam("cardId") Long cardId, @PathParam("newColumnId") Long newColumnId) {
+        Card card = cardService.moveCard(cardId, newColumnId, getUserIdFromToken());
+        return Response.ok(card).build();
     }
 }

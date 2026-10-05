@@ -34,14 +34,18 @@ public class BoardColumnResource {
     @Inject
     BoardColumnService boardColumnService;
 
-    private Long getUserIdFromToken() { 
-        Number userId = jwt.getClaim("userId");
+    private Long getUserIdFromToken() {
+        String subject = jwt.getSubject();
         
-        if (userId == null) {
-            throw new NotAuthorizedException("Token invalide ou userId manquant");
+        if (subject == null) {
+            throw new NotAuthorizedException("Token invalide : aucun subject (sub) trouvé");
         }
         
-        return userId.longValue();
+        try {
+            return Long.parseLong(subject);
+        } catch (NumberFormatException e) {
+            throw new NotAuthorizedException("Token champs 'id' non valide : " + subject);
+        }
     }
         
     @GET
@@ -53,6 +57,7 @@ public class BoardColumnResource {
 
     @POST
     public Response createColumn(@Valid BoardColumnRequest request) {
+        System.out.println("DEBUG QUARKUS - Reçu boardId: " + request.boardId + " pour le titre: " + request.title);
         BoardColumn column = boardColumnService.createColumn(request, getUserIdFromToken());
         return Response.status(Response.Status.CREATED).entity(column).build();
     }

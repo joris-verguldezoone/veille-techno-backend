@@ -91,4 +91,26 @@ public class CardService {
 
         return card;
     }
+
+    @Transactional
+    public Card moveCard(Long cardId, Long newColumnId, Long userId) {
+        Card card = Card.findById(cardId);
+        BoardColumn newColumn = BoardColumn.findById(newColumnId);
+        
+        if (card == null || newColumn == null) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.NOT_FOUND).entity("Carte ou colonne introuvable").build()
+            );
+        }
+
+        if (!newColumn.board.owner.id.equals(userId)) {
+            throw new WebApplicationException(
+                Response.status(Response.Status.FORBIDDEN).entity("Accès refusé").build()
+            );
+        }
+
+        card.boardColumn = newColumn;
+        
+        return card;
+    }
 }

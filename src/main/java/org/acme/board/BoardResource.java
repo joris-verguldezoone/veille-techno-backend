@@ -6,6 +6,7 @@ import org.acme.board.dto.BoardRequest;
 import org.acme.board.dto.BoardTitlePatch;
 import org.acme.board.entity.Board;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
 
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
@@ -21,6 +22,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+
 
 @Path("/api/boards")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,22 +37,34 @@ public class BoardResource {
     @Inject
     BoardService boardService;
 
-    private Long getUserIdFromToken() { 
-        Number userId = jwt.getClaim("userId");
+    private static final Logger LOG = Logger.getLogger(BoardResource.class);
+
+    private Long getUserIdFromToken() {
+        String subject = jwt.getSubject();
         
-        if (userId == null) {
-            throw new NotAuthorizedException("Token invalide ou userId manquant");
+        if (subject == null) {
+            throw new NotAuthorizedException("Token invalide : aucun subject (sub) trouvé");
         }
         
-        return userId.longValue();
+        try {
+            return Long.parseLong(subject);
+        } catch (NumberFormatException e) {
+            throw new NotAuthorizedException("Token champs 'id' non valide : " + subject);
+        }
     }
 
     @GET
     public Response getMyBoards() {
-        Long userId = getUserIdFromToken();
-        List<Board> boards = boardService.getBoardsByUser(userId);
+        try {
+            Long userId = getUserIdFromToken();
 
-        return Response.ok(boards).build();
+            List<Board> boards = boardService.getBoardsByUser(userId);
+    
+            return Response.ok(boards).build();
+        } catch (Exception e) {
+            LOG.info(e.getMessage());
+            return Response.status(Status.BAD_REQUEST).build();
+        }
     }
 
     @POST
