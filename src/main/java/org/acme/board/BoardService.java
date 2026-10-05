@@ -1,5 +1,7 @@
 package org.acme.board;
 
+import java.util.List;
+
 import org.acme.auth.entity.User;
 import org.acme.board.dto.BoardRequest;
 import org.acme.board.dto.BoardTitlePatch;
@@ -7,12 +9,9 @@ import org.acme.board.entity.Board;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @ApplicationScoped
 public class BoardService {

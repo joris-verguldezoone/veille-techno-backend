@@ -20,7 +20,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/api/cards")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,11 +33,13 @@ public class CardResource {
     @Inject
     CardService cardService;
 
-    private Long getUserIdFromToken() {
-        Long userId = Long.parseLong(jwt.getSubject());
+    private Long getUserIdFromToken() { 
+        Number userId = jwt.getClaim("userId");
+        
         if (userId == null) {
             throw new NotAuthorizedException("Token invalide ou userId manquant");
         }
+        
         return userId.longValue();
     }
 

@@ -11,7 +11,6 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
 
 @ApplicationScoped
 public class CardService {
@@ -34,18 +33,6 @@ public class CardService {
         return Card.list("boardColumn.id", columnId);
     }
 
-    @Transactional
-    public Card createCard(Long columnId, CardRequest request, Long userId) {
-        BoardColumn column = BoardColumn.findById(columnId);
-        
-        if (column == null) {
-            throw new WebApplicationException(
-                Response.status(Response.Status.NOT_FOUND).entity("Colonne introuvable").build()
-            );
-        }
-        
-        return Card.list("boardColumn.id", columnId);
-    }
 
     @Transactional
     public Card createCard(Long columnId, CardRequest request, Long userId) {
